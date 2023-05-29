@@ -132,6 +132,7 @@
     error.value = false
     
     const newPatient:IPatient = {
+      id: generateUUID(),
       pet: pet.value,
       owner: owner.value,
       email: email.value,

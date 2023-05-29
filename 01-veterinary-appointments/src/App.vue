@@ -4,7 +4,7 @@
 
     <div className="mt-12 md:flex">
       <FormComponent :patient="patient" :patients="patients" @setPatientsList="setPatientsList" />
-      <PatientList :patients="patients" @deletePatient="deletePatient" @selectPatient="selectPatient" />
+      <PatientList :patients="patients" @deletePatient="deletePatient" />
     </div>
   </div>
 </template>
@@ -31,9 +31,9 @@
     patients.value = patients.value.filter(patient => patient.id !== patientSelected.id)
   }
 
-  const selectPatient = (patientSelected:IPatient) => {
-    patient.value = patientSelected
-  }
+  // const selectPatient = (patientSelected:IPatient) => {
+  //   patient.value = patientSelected
+  // }
 
   // const editPatient = () => {
   //   console.log('first')
