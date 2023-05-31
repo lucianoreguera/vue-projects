@@ -93,7 +93,6 @@
   let email:Ref<string> = ref<string>('')
   let entryDate:Ref<Date> = ref<Date>(new Date())
   let symptoms:Ref<string> = ref<string>('')
-  // let patientsList:Ref<Array<IPatient>> = ref<Array<IPatient>>([])
   const error:Ref<boolean> = ref<boolean>(false)
 
   const props = defineProps({
@@ -107,21 +106,17 @@
     }
   })
 
-  const emits = defineEmits(['setPatientsList'])
+  const emits = defineEmits(['addPatient','editPatient'])
 
-  // watchEffect(() => {
-  //   if( Object.keys(props.patient).length > 0  ) {
-  //     pet.value = props.patient.pet
-  //     owner.value = props.patient.owner
-  //     email.value = props.patient.email
-  //     entryDate.value = props.patient.entryDate
-  //     symptoms.value = props.patient.symptoms
-  //   }
-
-  //   // patientsList.value = props.patients
-  //   // console.log(typeof props.patients)
-  //   // patientsList.value = props.patients.map( patient => patient. === props.patient.id ? newPatient : patient )
-  // });
+  watchEffect(() => {
+    if( Object.keys(props.patient).length > 0  ) {
+      pet.value = props.patient.pet
+      owner.value = props.patient.owner
+      email.value = props.patient.email
+      entryDate.value = props.patient.entryDate
+      symptoms.value = props.patient.symptoms
+    }
+  });
 
   const handleSubmit = () => {
     if ( [ pet.value, owner.value, email.value, symptoms.value ].includes('') ) {
@@ -132,7 +127,7 @@
     error.value = false
     
     const newPatient:IPatient = {
-      id: generateUUID(),
+      // id: generateUUID(),
       pet: pet.value,
       owner: owner.value,
       email: email.value,
@@ -140,30 +135,21 @@
       symptoms: symptoms.value
     }
 
-    // if(props.patient.id) {
-    //   // Edit
-    //   // newPatient.id = props.patient.id
-    //   // const newPatientsList = props.patients.map( patient => console.log(patient) )//patient => patient.id === props.patient.id ? newPatient : patient )
+    if(props.patient.id) {
+      // Edit
+      newPatient.id = props.patient.id
+      emits('editPatient', newPatient)
 
-    //   // setPacientes(pacientesActualizados)
-    //   // setPaciente({})
-    //   // console.log(newPatientsList)
-
-    // } else {
-    //   // Nuevo registro
-    //   // objetoPaciente.id = generarId();
-    //   // setPacientes([...pacientes, objetoPaciente]);
-    // }
+    } else {
+      // Add
+      newPatient.id = generateUUID()
+      emits('addPatient', newPatient)
+    }
 
     pet.value = ''
     owner.value = ''
     email.value = ''
     entryDate.value = new Date()
     symptoms.value = ''
-    savePatient(newPatient)    
-  }
-
-  const savePatient = (patient:IPatient) => {
-    emits('setPatientsList', patient)
   }
 </script>

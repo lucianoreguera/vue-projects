@@ -6,7 +6,7 @@
         Administra tus <span className="text-indigo-600 font-bold ">Pacientes y Citas</span>
       </p>
       
-      <PatientDetail v-for="patient in patients" :key="patient" :patient="patient" @deletePatient="deletePatient" />
+      <PatientDetail v-for="patient in patients" :key="patient" :patient="patient" @deletePatient="deletePatient" @selectPatient="selectPatient" />
     </div>
     
     <div v-else>
@@ -30,13 +30,13 @@
     }
   })
 
-  const emits = defineEmits(['deletePatient'])
+  const emits = defineEmits(['deletePatient', 'selectPatient'])
 
   const deletePatient = (patient:IPatient) => {
     emits('deletePatient', patient)
   }
 
-  // const selectPatient = (patient:IPatient) => {
-  //   emits('selectPatient', patient)
-  // }
+  const selectPatient = (patient:IPatient) => {
+    emits('selectPatient', patient)
+  }
 </script>

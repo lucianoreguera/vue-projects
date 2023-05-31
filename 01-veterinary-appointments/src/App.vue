@@ -3,8 +3,8 @@
     <HeaderComponent />
 
     <div className="mt-12 md:flex">
-      <FormComponent :patient="patient" :patients="patients" @setPatientsList="setPatientsList" />
-      <PatientList :patients="patients" @deletePatient="deletePatient" />
+      <FormComponent :patient="patient" :patients="patients" @addPatient="addPatient" @editPatient="editPatient" />
+      <PatientList :patients="patients" @deletePatient="deletePatient" @selectPatient="selectPatient" />
     </div>
   </div>
 </template>
@@ -19,24 +19,21 @@
   const patients:Ref<Array<IPatient>> = ref([])
   const patient:Ref<IPatient> = ref<IPatient>({})
 
-  const setPatientsList = (patient:IPatient) => {
+  const addPatient = (patient:IPatient) => {
     patients.value = [ ...patients.value, patient ]
   }
-
-  // const setPatient = (patientSelected:IPatient) => {
-  //   patient.value = patientSelected
-  // }
 
   const deletePatient = (patientSelected:IPatient) => {
     patients.value = patients.value.filter(patient => patient.id !== patientSelected.id)
   }
 
-  // const selectPatient = (patientSelected:IPatient) => {
-  //   patient.value = patientSelected
-  // }
+  const selectPatient = (patientSelected:IPatient) => {
+    patient.value = patientSelected
+  }
 
-  // const editPatient = () => {
-  //   console.log('first')
-  // }
+  const editPatient = (patientEdit:IPatient) => {
+    deletePatient(patientEdit)
+    addPatient(patientEdit)
+  }
 
 </script>
