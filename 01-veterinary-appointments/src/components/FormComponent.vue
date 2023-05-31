@@ -75,8 +75,16 @@
       </div>
 
       <input
+        v-if="props.patient.id"
         type="submit"
         class="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
+        value="Editar Paciente"
+      />
+      <input
+        v-else
+        type="submit"
+        class="bg-indigo-600 w-full p-3 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors"
+        value="Añadir Paciente"
       />
     </form>
   </div>

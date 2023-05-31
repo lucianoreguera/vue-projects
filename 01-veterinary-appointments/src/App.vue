@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { Ref, ref} from 'vue'
+  import { Ref, ref, onMounted, watch } from 'vue'
   import HeaderComponent from '@/components/HeaderComponent.vue'
   import PatientList from '@/components/PatientList.vue'
   import FormComponent from '@/components/FormComponent.vue'
@@ -18,6 +18,17 @@
 
   const patients:Ref<Array<IPatient>> = ref([])
   const patient:Ref<IPatient> = ref<IPatient>({})
+
+  onMounted(() => {
+    const patientsLS = JSON.parse(localStorage.getItem('patients')) || []
+    patients.value = patientsLS 
+  })
+
+  watch(patients, (newVal) => {
+    localStorage.setItem('patients', JSON.stringify(newVal))
+  }, {
+    deep: true
+  })
 
   const addPatient = (patient:IPatient) => {
     patients.value = [ ...patients.value, patient ]
@@ -34,6 +45,7 @@
   const editPatient = (patientEdit:IPatient) => {
     deletePatient(patientEdit)
     addPatient(patientEdit)
+    patient.value = {}
   }
 
 </script>
